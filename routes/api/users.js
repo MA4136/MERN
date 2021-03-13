@@ -60,8 +60,8 @@ router.post('/',
             })
 
             // res.send('User registration is successful')
-        } catch (err) {
-            console.error(err.message)
+        } catch (e) {
+            console.error(e.message)
             res.status(500).send('Server error')
         }
     })

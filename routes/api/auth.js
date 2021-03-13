@@ -15,13 +15,11 @@ router.get('/', middlewareAuth, async (req, res) => {
     try {
         const user = await User.findById(req.user.id).select('-password')
         res.json(user)
-    } catch (err) {
-        console.error(err.message)
+    } catch (e) {
+        console.error(e.message)
         res.status(500).send('Server Error')
-
     }
 })
-
 
 // route    POST api/auth
 // desc     Authenticate user & Get token
@@ -42,6 +40,7 @@ router.post('/',
         const {email, password} = req.body
 
         try {
+            //  Input data validation
             let user = await User.findOne({email})
             if (!user) {
                 return res.status(400).json({errors: [{msg: 'Invalid credentials'}]})
@@ -59,10 +58,8 @@ router.post('/',
                 if (err) throw err
                 res.json({token})
             })
-
-            // res.send('User registration is successful')
-        } catch (err) {
-            console.error(err.message)
+        } catch (e) {
+            console.error(e.message)
             res.status(500).send('Server error')
         }
     })
