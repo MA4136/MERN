@@ -48,7 +48,8 @@ const ProfileSchema = new mongoose.Schema({
                 type: Date
             },
             to: {
-                type: Date
+                type: Date,
+                default: Date.now()
             },
             current: {
                 type: Boolean
@@ -56,7 +57,8 @@ const ProfileSchema = new mongoose.Schema({
             description: {
                 type: String
             },
-        }],
+        }
+    ],
 
     education: [
         {
@@ -81,7 +83,8 @@ const ProfileSchema = new mongoose.Schema({
             description: {
                 type: String
             },
-        }],
+        }
+    ],
 
     social: {
         vk: {
@@ -103,6 +106,7 @@ const ProfileSchema = new mongoose.Schema({
             type: String
         },
     },
-})
+}
+)
 
 module.exports = Profile = mongoose.model('profile', ProfileSchema)
