@@ -1,5 +1,7 @@
 const express = require('express')
 const router = express.Router()
+const request = require('request')
+const config = require('config')
 const {check, validationResult} = require('express-validator')
 const middlewareAuth = require('../../middleware/authentication')
 
@@ -149,15 +151,103 @@ router.put('/experience', [middlewareAuth,
 
         try {
             const profile = await Profile.findOne({user: req.user.id})
-            // profile.experience.unshift(newExperience)
-            profile.experience = newExperience
+            profile.experience.unshift(newExperience) // Create Many
+            // profile.experience = newExperience // Create/Update One
             await profile.save()
             res.json(profile)
         } catch (e) {
             console.error(e.message)
             res.status(500).send('Server Error')
         }
+    }
+)
 
-    })
+// route    DELETE api/profile/experience/:exp_id
+// desc     Delete experience from profile
+// access   Private
+router.delete('/experience/:exp_id', middlewareAuth, async (req, res) => {
+    try {
+        const profile = await Profile.findOne({user: req.user.id})
+
+        //  Get remove index
+        const removeIndex = profile.experience.map(el => el.id).indexOf(req.params.exp_id)
+        if (removeIndex !== -1) {
+            profile.experience.splice(removeIndex, 1)
+            await profile.save()
+            res.json(profile)
+        } else res.json({mgs: 'No experience for this Id'})
+    } catch (e) {
+        console.error(e.message)
+        res.status(500).send('Server Error')
+    }
+})
+
+// route    PUT api/profile/education
+// desc     Add profile education
+// access   Private
+router.put('/education', middlewareAuth, async (req, res) => {
+        console.log(req)
+
+        const {school, degree, location, from, to, current, description} = req.body
+        const newEducation = {school, degree, location, from, to, current, description}
+
+        try {
+            const profile = await Profile.findOne({user: req.user.id})
+            profile.education.unshift(newEducation) // Create Many
+            // profile.education = newEducation // Create/Update One
+            await profile.save()
+            res.json(profile)
+        } catch (e) {
+            console.error(e.message)
+            res.status(500).send('Server Error')
+        }
+    }
+)
+
+// route    DELETE api/profile/education/:exp_id
+// desc     Delete education from profile
+// access   Private
+router.delete('/education/:exp_id', middlewareAuth, async (req, res) => {
+    try {
+        const profile = await Profile.findOne({user: req.user.id})
+
+        //  Get remove index
+        const removeIndex = profile.education.map(el => el.id).indexOf(req.params.exp_id)
+        if (removeIndex !== -1) {
+            profile.education.splice(removeIndex, 1)
+            await profile.save()
+            res.json(profile)
+        } else res.json({mgs: 'No education for this Id'})
+    } catch (e) {
+        console.error(e.message)
+        res.status(500).send('Server Error')
+    }
+})
+
+// route    GET api/profile/github/:username
+// desc     Get user repos from Github
+// access   Public
+router.get('/github/:username', (req, res) => {
+    try {
+        const clientId = config.get('githubClientID')
+        const clientSecret = config.get('githubClientSecret')
+
+        const options = {
+            uri: `https://api.github.com/users/${req.params.username}/repos?per_page=5&sort=created:asc&client_id=${clientId}&client_secret=${clientSecret}`,
+            method: 'GET',
+            headers: {'user-agent': 'node.js'}
+        }
+        request(options, (error, response, body) => {
+            if (error) console.error(error)
+            if (response.statusCode !== 200) {
+                return res.status(404).json({msg: 'Github profile was not found'})
+            }
+            res.json(JSON.parse(body))
+        })
+    } catch (e) {
+        console.error(e.message)
+        res.status(500).send('Server Error')
+    }
+})
 
 module.exports = router
