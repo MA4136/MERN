@@ -28,7 +28,7 @@ const PostSchema = new mongoose.Schema({
     ],
     date: {
         type: Date,
-        default: Date.now()
+        default: Date.now
     },
     comments: [
         {
@@ -48,7 +48,7 @@ const PostSchema = new mongoose.Schema({
             },
             date: {
                 type: Date,
-                default: Date.now()
+                default: Date.now
             }
         }
     ]
