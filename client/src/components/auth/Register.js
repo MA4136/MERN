@@ -1,7 +1,12 @@
 import React, { useState } from 'react'
+import PropTypes from 'prop-types'
+import axios from 'axios'
 import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { setAlert } from '../../actions/alert'
 
-const Register = () => {
+const Register = ({setAlert}) => {
+
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -18,13 +23,29 @@ const Register = () => {
         })
     }
 
-    const onFormSubmit = (e) => {
+    const onFormSubmit = async (e) => {
         e.preventDefault()
         if (!password.length || password !== password2) {
+            setAlert('Password do not match!', 'danger')
             console.log('%cWrong!', 'color : red; background : #333333; font-weight: bold; font-size: large;')
         } else {
-            console.log('%cSuccess!', 'color: deepskyblue; background : black; font-size: large;')
-            console.log(formData)
+            const newUser = {name, email, password}
+            try {
+                const config = {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }
+                const body = JSON.stringify(newUser)
+
+                const res = await axios.post('/api/users', body, config)
+                console.log(res.data)
+
+                console.log('%cSuccess!', 'color: deepskyblue; background : black; font-size: large;')
+
+            } catch (e) {
+                console.error(e.response.data)
+            }
         }
     }
 
@@ -61,6 +82,7 @@ const Register = () => {
                     <input type='password'
                            placeholder='Password'
                            name='password'
+                           value={password}
                            minLength='6'
                            onChange={onFormChange}
                         // required
@@ -71,6 +93,7 @@ const Register = () => {
                     <input type='password'
                            placeholder='Confirm Password'
                            name='password2'
+                           value={password2}
                            minLength='6'
                            onChange={onFormChange}
                         // required
@@ -86,4 +109,8 @@ const Register = () => {
     )
 }
 
-export default Register
+Register.propTypes = {
+    setAlert: PropTypes.func.isRequired,
+}
+
+export default connect(null, {setAlert})(Register)

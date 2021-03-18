@@ -15,14 +15,14 @@ router.post('/',
     [
         // checking registration fields
         check('name', 'Enter your Name').not().isEmpty(),
-        check('email', 'Enter your Email').isEmail(),
+        check('email', 'Is not email').isEmail(),
         check('password', 'Enter your Password with 3 or more characters').isLength({min: 3})
     ],
     async (req, res) => {
         console.log(req.body)
         const errors = validationResult(req)
         if (!errors.isEmpty()) {
-            return res.status(400).json({errors: errors.array()})
+            return res.status(400).json(errors.array().map(el => el.msg))
         }
 
         const {name, email, password} = req.body
@@ -60,6 +60,7 @@ router.post('/',
             })
 
             // res.send('User registration is successful')
+
         } catch (e) {
             console.error(e.message)
             res.status(500).send('Server error')
