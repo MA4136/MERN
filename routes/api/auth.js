@@ -28,13 +28,12 @@ router.post('/',
     [
         // checking authorization fields
         check('email', 'Enter your Email').isEmail(),
-        check('password', 'Password is required').exists()
+        check('password', 'Enter your Password with 3 or more characters').isLength({min: 3})
     ],
     async (req, res) => {
-        console.log(req.body)
         const errors = validationResult(req)
         if (!errors.isEmpty()) {
-            return res.status(400).json({errors: errors.array()})
+            return res.status(400).json(errors.array().map(el => el.msg))
         }
 
         const {email, password} = req.body
@@ -43,12 +42,12 @@ router.post('/',
             //  Input data validation
             let user = await User.findOne({email})
             if (!user) {
-                return res.status(400).json({errors: [{msg: 'Invalid credentials'}]})
+                return res.status(400).json(['Invalid credentials'])
             }
 
             const isMatch = await bcrypt.compare(password, user.password)
             if (!isMatch) {
-                return res.status(400).json({errors: [{msg: 'Invalid credentials'}]})
+                return res.status(400).json(['Invalid credentials'])
             }
 
             //  Return jsonwebtoken
