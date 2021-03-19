@@ -1,12 +1,17 @@
 import React from 'react'
-import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 
-const Alert = () => {
+const Alert = ({alerts}) => {
     return (
-        <div>
-
-        </div>
+        <>
+            {
+                alerts !== null && alerts.length > 0 && alerts.map(el => (
+                    <div key={el.id} className={`alert alert-${el.alertType}`}>
+                        {el.msg}
+                    </div>))
+            }
+        </>
     )
 }
 
@@ -15,7 +20,7 @@ Alert.propTypes = {
 }
 
 const mapStateToProps = (state) => {
- return {alerts: state.alert}
+    return {alerts: state.alert}
 }
 
 export default connect(mapStateToProps)(Alert)

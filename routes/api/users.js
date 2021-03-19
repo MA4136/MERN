@@ -9,7 +9,7 @@ const {check, validationResult} = require('express-validator')
 const User = require('../../models/User')
 
 // route    POST api/users
-// desc     Register user
+// desc     Registration user
 // access   Public
 router.post('/',
     [
@@ -19,7 +19,6 @@ router.post('/',
         check('password', 'Enter your Password with 3 or more characters').isLength({min: 3})
     ],
     async (req, res) => {
-        console.log(req.body)
         const errors = validationResult(req)
         if (!errors.isEmpty()) {
             return res.status(400).json(errors.array().map(el => el.msg))
@@ -31,7 +30,7 @@ router.post('/',
             //  See if user exists
             let user = await User.findOne({email})
             if (user) {
-                return res.status(400).json({errors: [{msg: 'user already exists'}]})
+                return res.status(400).json(['user already exists'])
             }
 
             //  Get users gravatar
@@ -58,8 +57,6 @@ router.post('/',
                 if (err) throw err
                 res.json({token})
             })
-
-            // res.send('User registration is successful')
 
         } catch (e) {
             console.error(e.message)

@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 const Login = () => {
+
     const [formData, setFormData] = useState({
         email: '',
         password: '',
@@ -18,8 +19,6 @@ const Login = () => {
 
     const onFormSubmit = async (e) => {
         e.preventDefault()
-        // console.log('%cWrong!', 'color : red; background : #333333; font-weight: bold; font-size: large;')
-        // console.log('%cSuccess!', 'color: deepskyblue; background : black; font-size: large;')
     }
 
     return (
@@ -43,8 +42,8 @@ const Login = () => {
                            placeholder='Password'
                            name='password'
                            value={password}
-                           minLength='6'
                            onChange={onFormChange}
+                        // minLength='6'
                         // required
                     />
                 </div>
@@ -57,6 +56,5 @@ const Login = () => {
         </>
     )
 }
-
 
 export default Login
