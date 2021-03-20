@@ -1,15 +1,17 @@
 import React, { Fragment, useEffect } from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { Provider } from 'react-redux'
-import store from './store'
-import Navbar from './components/layout/Navbar'
-import Landing from './components/layout/Landing'
+import { loadUser } from './actions/authActions'
+import setAuthToken from './utils/setAuthToken'
+import Dashboard from './components/dashboard/Dashboard'
 import Register from './components/auth/Register'
+import PrivateRoute from './routing/PrivateRoute'
+import Landing from './components/layout/Landing'
+import Navbar from './components/layout/Navbar'
 import Alert from './components/layout/Alert'
 import Login from './components/auth/Login'
+import store from './store'
 import './App.css'
-import setAuthToken from './utils/setAuthToken'
-import { loadUser } from './actions/auth'
 
 
 if (localStorage.token) {
@@ -27,12 +29,13 @@ const App = () => {
             <BrowserRouter>
                 <Fragment>
                     <Navbar/>
-                    <Route exact={true} path={'/'} component={Landing}/>
+                    <Route exact path={'/'} component={Landing}/>
                     <section className='container'>
                         <Alert/>
                         <Switch>
-                            <Route exact={true} path={'/registration'} component={Register}/>
-                            <Route exact={true} path={'/login'} component={Login}/>
+                            <Route exact path={'/registration'} component={Register}/>
+                            <Route exact path={'/login'} component={Login}/>
+                            <PrivateRoute exact path={'/dashboard'} component={Dashboard}/>
                         </Switch>
                     </section>
                 </Fragment>
