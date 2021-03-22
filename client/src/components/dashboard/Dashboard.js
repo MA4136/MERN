@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react'
-import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
-import { connect } from 'react-redux'
-import { getCurrentProfile } from '../../actions/profileActions'
 import Spinner from '../layout/Spinner'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
+import { getCurrentProfile } from '../../actions/profileActions'
 
 const Dashboard = ({getCurrentProfile, profileInfo, user}) => {
     const {isLoading, profile} = profileInfo
+
     useEffect(() => {
         getCurrentProfile()
     }, [])
@@ -46,4 +47,5 @@ const mapStateToProps = (state) => {
         user: state.auth.user
     }
 }
+
 export default connect(mapStateToProps, {getCurrentProfile})(Dashboard)

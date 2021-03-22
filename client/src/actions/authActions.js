@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { setAlert } from './alert'
+import { setAlert } from './alertActions'
 import {
     REGISTER_SUCCESS,
     REGISTER_FAILURE,
@@ -74,6 +74,7 @@ export const logIn = (email, password) => async (dispatch) => {
             payload: res.data
         })
         dispatch(loadUser())
+
     } catch (e) {
         const errors = e.response.data
         if (errors) {

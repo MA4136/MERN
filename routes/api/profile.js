@@ -36,8 +36,9 @@ router.post('/', [middlewareAuth,
     async (req, res) => {
         const errors = validationResult(req)
         if (!errors.isEmpty()) {
-            return res.status(400).json({errors: errors.array()})
+            return res.status(400).json(errors.array().map(el => el.msg))
         }
+
         const {
             bio, date, company, website, location, github, status, skills,
             vk, youtube, facebook, twitter, linkedin, instagram
