@@ -144,7 +144,7 @@ router.put('/experience', [middlewareAuth,
     async (req, res) => {
         const errors = validationResult(req)
         if (!errors.isEmpty()) {
-            return res.status(400).json({errors: errors.array()})
+            return res.status(400).json(errors.array().map(el => el.msg))
         }
 
         const {title, company, location, from, to, current, description} = req.body
@@ -186,8 +186,15 @@ router.delete('/experience/:exp_id', middlewareAuth, async (req, res) => {
 // route    PUT api/profile/education
 // desc     Add profile education
 // access   Private
-router.put('/education', middlewareAuth, async (req, res) => {
-        console.log(req)
+router.put('/education', [middlewareAuth, [
+        check('school', 'School is required').not().isEmpty(),
+        check('degree', 'Degree is required').not().isEmpty(),
+    ]],
+    async (req, res) => {
+        const errors = validationResult(req)
+        if (!errors.isEmpty()) {
+            return res.status(400).json(errors.array().map(el => el.msg))
+        }
 
         const {school, degree, location, from, to, current, description} = req.body
         const newEducation = {school, degree, location, from, to, current, description}
