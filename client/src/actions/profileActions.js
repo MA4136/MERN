@@ -1,4 +1,4 @@
-import { GET_PROFILE, PROFILE_ERROR, UPDATE_PROFILE } from './types'
+import { CLEAR_PROFILE, DELETE_ACCOUNT, GET_PROFILE, PROFILE_ERROR, UPDATE_PROFILE } from './types'
 import { setAlert } from './alertActions'
 import axios from 'axios'
 
@@ -39,7 +39,7 @@ export const createProfile = (formData, history, edit = false) => async (dispatc
         })
 
         const alertMsg = edit ? 'Profile Updated' : 'Profile Created'
-        dispatch(setAlert(alertMsg, 'success', 5000))
+        dispatch(setAlert(alertMsg, 'success'))
 
         if (!edit) {
             history.push('/dashboard')
@@ -47,9 +47,7 @@ export const createProfile = (formData, history, edit = false) => async (dispatc
 
     } catch (e) {
         const errors = e.response.data
-        if (errors) {
-            errors.map(err => dispatch(setAlert(err, 'danger')))
-        }
+        if (errors) errors.map(err => dispatch(setAlert(err, 'danger')))
 
         dispatch({
             type: PROFILE_ERROR,
@@ -76,14 +74,12 @@ export const addExperience = (formData, history) => async (dispatch) => {
             payload: res.data
         })
 
-        dispatch(setAlert('Experience added', 'success', 5000))
+        dispatch(setAlert('Experience added', 'success'))
         history.push('/dashboard')
 
     } catch (e) {
         const errors = e.response.data
-        if (errors) {
-            errors.map(err => dispatch(setAlert(err, 'danger')))
-        }
+        if (errors) errors.map(err => dispatch(setAlert(err, 'danger')))
 
         dispatch({
             type: PROFILE_ERROR,
@@ -110,14 +106,12 @@ export const addEducation = (formData, history) => async (dispatch) => {
             payload: res.data
         })
 
-        dispatch(setAlert('Education added', 'success', 5000))
+        dispatch(setAlert('Education added', 'success'))
         history.push('/dashboard')
 
     } catch (e) {
         const errors = e.response.data
-        if (errors) {
-            errors.map(err => dispatch(setAlert(err, 'danger')))
-        }
+        if (errors) errors.map(err => dispatch(setAlert(err, 'danger')))
 
         dispatch({
             type: PROFILE_ERROR,
@@ -125,5 +119,76 @@ export const addEducation = (formData, history) => async (dispatch) => {
                 msg: e.response.statusText, status: e.response.status
             }
         })
+    }
+}
+
+//  Delete experience
+export const deleteExperience = (id) => async (dispatch) => {
+    try {
+        const res = await axios.delete(`api/profile/experience/${id}`)
+        dispatch({
+            type: UPDATE_PROFILE,
+            payload: res.data
+        })
+        dispatch(setAlert('Experience deleted', 'success'))
+
+    } catch (e) {
+        const errors = e.response.data
+        if (errors) errors.map(err => dispatch(setAlert(err, 'danger')))
+
+        dispatch({
+            type: PROFILE_ERROR,
+            payload: {
+                msg: e.response.statusText, status: e.response.status
+            }
+        })
+    }
+}
+
+//  Delete education
+export const deleteEducation = (id) => async (dispatch) => {
+    try {
+        const res = await axios.delete(`api/profile/education/${id}`)
+        dispatch({
+            type: UPDATE_PROFILE,
+            payload: res.data
+        })
+        dispatch(setAlert('Education deleted', 'success'))
+
+    } catch (e) {
+        const errors = e.response.data
+        if (errors) errors.map(err => dispatch(setAlert(err, 'danger')))
+
+        dispatch({
+            type: PROFILE_ERROR,
+            payload: {
+                msg: e.response.statusText, status: e.response.status
+            }
+        })
+    }
+}
+
+//  Delete account & profile
+export const deleteAccount = () => async (dispatch) => {
+    if (window.confirm('This action cannot be undone. Confirm?')) {
+        try {
+            await axios.delete('api/profile')
+            dispatch({type: CLEAR_PROFILE})
+            dispatch({
+                type: DELETE_ACCOUNT
+            })
+            dispatch(setAlert('Great!', 'success'))
+
+        } catch (e) {
+            const errors = e.response.data
+            if (errors) errors.map(err => dispatch(setAlert(err, 'danger')))
+
+            dispatch({
+                type: PROFILE_ERROR,
+                payload: {
+                    msg: e.response.statusText, status: e.response.status
+                }
+            })
+        }
     }
 }

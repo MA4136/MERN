@@ -7,6 +7,7 @@ const middlewareAuth = require('../../middleware/authentication')
 
 const Profile = require('../../models/Profile')
 const User = require('../../models/User')
+const Post = require('../../models/Post')
 
 // route    GET api/profile/me
 // desc     Get current users profile
@@ -122,11 +123,16 @@ router.get('/user/:user_id', async (req, res) => {
 // access   Private
 router.delete('/', middlewareAuth, async (req, res) => {
     try {
+        //  Remove user posts
+        await Post.deleteMany({user: req.user.id})
+
         //  Remove Profile
         await Profile.findOneAndRemove({user: req.user.id})
+
         //  Remove user
         await User.findOneAndRemove({_id: req.user.id})
         res.json({msg: 'User removed'})
+
     } catch (e) {
         console.error(e.message)
         res.status(500).send('Server Error')
@@ -156,6 +162,7 @@ router.put('/experience', [middlewareAuth,
             // profile.experience = newExperience // Create/Update One
             await profile.save()
             res.json(profile)
+
         } catch (e) {
             console.error(e.message)
             res.status(500).send('Server Error')
@@ -177,6 +184,7 @@ router.delete('/experience/:exp_id', middlewareAuth, async (req, res) => {
             await profile.save()
             res.json(profile)
         } else res.json({mgs: 'No experience for this Id'})
+
     } catch (e) {
         console.error(e.message)
         res.status(500).send('Server Error')
@@ -205,6 +213,7 @@ router.put('/education', [middlewareAuth, [
             // profile.education = newEducation // Create/Update One
             await profile.save()
             res.json(profile)
+
         } catch (e) {
             console.error(e.message)
             res.status(500).send('Server Error')
@@ -226,6 +235,7 @@ router.delete('/education/:exp_id', middlewareAuth, async (req, res) => {
             await profile.save()
             res.json(profile)
         } else res.json({mgs: 'No education for this Id'})
+
     } catch (e) {
         console.error(e.message)
         res.status(500).send('Server Error')
@@ -252,6 +262,7 @@ router.get('/github/:username', (req, res) => {
             }
             res.json(JSON.parse(body))
         })
+
     } catch (e) {
         console.error(e.message)
         res.status(500).send('Server Error')
