@@ -50,7 +50,7 @@ const UpdateProfile = (props) => {
             linkedin: (!isLoading && profile.social && profile.social.linkedin) || '',
             instagram: (!isLoading && profile.social && profile.social.instagram) || ''
         })
-    }, [isLoading])
+    }, [isLoading, getCurrentProfile])
 
     const onFormChange = (e) => {
         return setFormData({

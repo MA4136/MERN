@@ -13,12 +13,12 @@ const Dashboard = ({getCurrentProfile, deleteAccount, profileInfo, user}) => {
 
     useEffect(() => {
         getCurrentProfile()
-    }, [])
+    }, [getCurrentProfile])
 
     return (
         <>
             {
-                (isLoading && <Spinner/>) ||
+                (isLoading && <Spinner/>) || user &&
                 <div>
                     <h1 className='large'>Dashboard</h1>
                     <p className='lead'><i className='fas fa-user'>{' '} Hi, {user.name}</i></p>
@@ -55,7 +55,7 @@ Dashboard.propTypes = {
     getCurrentProfile: PropTypes.func.isRequired,
     deleteAccount: PropTypes.func.isRequired,
     profileInfo: PropTypes.object.isRequired,
-    user: PropTypes.object.isRequired,
+    user: PropTypes.object
 }
 
 const mapStateToProps = (state) => {
