@@ -45,7 +45,7 @@ router.post('/', [middlewareAuth,
             vk, youtube, facebook, twitter, linkedin, instagram
         } = req.body
 
-        //  Build Profile object
+        //  Build profile object
         const profileFields = {}
         profileFields.user = req.user.id
         if (bio) profileFields.bio = bio
@@ -61,7 +61,7 @@ router.post('/', [middlewareAuth,
                 profileFields.skills = skills
         }
 
-        //  Build Profile object
+        //  Build profile object
         profileFields.social = {}
         if (vk) profileFields.social.vk = vk
         if (youtube) profileFields.social.youtube = youtube
@@ -109,11 +109,11 @@ router.get('/', async (req, res) => {
 router.get('/user/:user_id', async (req, res) => {
     try {
         const profile = await Profile.findOne({user: req.params.user_id}).populate('user', ['name', 'avatar'])
-        if (!profile) return res.status(400).json({msg: 'Profile is not found'})
+        if (!profile) return res.status(400).json({msg: 'profile is not found'})
         res.json(profile)
     } catch (e) {
         console.error(e.message)
-        if (e.kind === 'ObjectId') return res.status(400).json({msg: 'Profile is not found'})
+        if (e.kind === 'ObjectId') return res.status(400).json({msg: 'profile is not found'})
         res.status(500).send('Server Error')
     }
 })
@@ -126,7 +126,7 @@ router.delete('/', middlewareAuth, async (req, res) => {
         //  Remove user posts
         await Post.deleteMany({user: req.user.id})
 
-        //  Remove Profile
+        //  Remove profile
         await Profile.findOneAndRemove({user: req.user.id})
 
         //  Remove user

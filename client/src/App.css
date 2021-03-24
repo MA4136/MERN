@@ -378,7 +378,7 @@ button {
     margin-bottom: 1rem;
 }
 
-/* Profile Page */
+/* profile Page */
 .profile-grid {
     display: grid;
     grid-template-areas:
@@ -558,7 +558,7 @@ button {
         display: none;
     }
 
-    /* Profile Page */
+    /* profile Page */
     .profile-top img,
     .profile img {
         width: 200px;

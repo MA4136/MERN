@@ -55,12 +55,12 @@ export const getProfiles = () => async (dispatch) => {
 //  Get profile by ID
 export const getProfileById = (userId) => async (dispatch) => {
     try {
-        const res = await axios.get(`api/profile/user/${userId}`)
-
+        const res = await axios.get(`http://localhost:3000/api/profile/user/${userId}`)
         dispatch({
             type: GET_PROFILE,
             payload: res.data
         })
+
     } catch (e) {
         dispatch({
             type: PROFILE_ERROR,
@@ -75,7 +75,6 @@ export const getProfileById = (userId) => async (dispatch) => {
 export const getGitRepos = (userName) => async (dispatch) => {
     try {
         const res = await axios.get(`api/profile/github/${userName}`)
-
         dispatch({
             type: GET_REPOS,
             payload: res.data
@@ -107,7 +106,7 @@ export const createProfile = (formData, history, edit = false) => async (dispatc
             payload: res.data
         })
 
-        const alertMsg = edit ? 'Profile Updated' : 'Profile Created'
+        const alertMsg = edit ? 'profile Updated' : 'profile Created'
         dispatch(setAlert(alertMsg, 'success'))
 
         if (!edit) {
