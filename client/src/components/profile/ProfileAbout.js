@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 
 const ProfileAbout = ({profile}) => {
     const {bio, skills, user: {name}} = profile
+
     return (
         <div className="profile-about bg-light p-2">
             {bio &&
@@ -15,7 +16,7 @@ const ProfileAbout = ({profile}) => {
             <h2 className="text-primary">Skill Set</h2>
             <div className="skills">
                 {skills.map((el, idx) => {
-                    return <div key={idx} className="p-1"><i className="fa fa-check"></i>{el}</div>
+                    return <div key={idx} className="p-1"><i className="fa fa-check"></i> {el}</div>
                 })}
             </div>
         </div>
