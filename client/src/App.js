@@ -15,6 +15,7 @@ import PrivateRoute from './routing/PrivateRoute'
 import Landing from './components/layout/Landing'
 import Navbar from './components/layout/Navbar'
 import Alert from './components/layout/Alert'
+import Posts from './components/posts/Posts'
 import Login from './components/auth/Login'
 import store from './store'
 import './App.css'
@@ -43,6 +44,7 @@ const App = () => {
                             <Route exact path={'/profiles'} component={ProfileList}/>
                             <Route exact path={'/registration'} component={Register}/>
                             <Route exact path={'/profile/:id'} component={ProfilePage}/>
+                            <PrivateRoute exact path={'/posts'} component={Posts}/>
                             <PrivateRoute exact path={'/dashboard'} component={Dashboard}/>
                             <PrivateRoute exact path={'/create-profile'} component={ProfileCreate}/>
                             <PrivateRoute exact path={'/edit-profile'} component={UpdateProfile}/>
