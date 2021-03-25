@@ -43,7 +43,7 @@ router.post('/', [middlewareAuth,
             })
 
             const post = await newPost.save()
-            res.json({msg: 'Post created', post: post.text})
+            res.json({msg: 'Post created', post})
 
         } catch (e) {
             console.error(e.message)

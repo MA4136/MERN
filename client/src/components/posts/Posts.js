@@ -4,6 +4,7 @@ import Spinner from '../layout/Spinner'
 import { getPosts } from '../../actions/postActions'
 import { connect } from 'react-redux'
 import PostItem from './PostItem'
+import PostForm from './PostForm'
 
 const Posts = ({getPosts, post}) => {
     const {posts, isLoading} = post
@@ -19,6 +20,8 @@ const Posts = ({getPosts, post}) => {
             <p className="lead">
                 <i className="fas fa-user"> Welcome</i>
             </p>
+
+            <PostForm/>
 
             <div className="posts">
                 {!isLoading && posts.map((el) => {
