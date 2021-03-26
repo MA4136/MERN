@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react'
-import Spinner from '../layout/Spinner'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { getCurrentProfile, deleteAccount } from '../../actions/profileActions'
 import DashboardActions from './DashboardActions'
+import Spinner from '../layout/Spinner'
 import Experience from './Experience'
 import Education from './Education'
 
@@ -17,8 +17,9 @@ const Dashboard = ({getCurrentProfile, deleteAccount, profileInfo, user}) => {
 
     return (
         <>
+            {isLoading && <Spinner/>}
             {
-                (isLoading && <Spinner/>) || user &&
+                user &&
                 <div>
                     <h1 className='large'>Dashboard</h1>
                     <p className='lead'><i className='fas fa-user'>{' '} Hi, {user.name}</i></p>
@@ -39,10 +40,10 @@ const Dashboard = ({getCurrentProfile, deleteAccount, profileInfo, user}) => {
                     <DashboardActions/>
                     <Experience experience={profile.experience}/>
                     <Education education={profile.education}/>
-                    <div className="my-2">
-                        <button className="btn btn-danger"
+                    <div className='my-2'>
+                        <button className='btn btn-danger'
                                 onClick={() => deleteAccount()}>
-                            <i className="fas fa-user"></i> delete account
+                            <i className='fas fa-user'></i> delete account
                         </button>
                     </div>
                 </>

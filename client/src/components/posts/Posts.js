@@ -16,14 +16,14 @@ const Posts = ({getPosts, post}) => {
     return (
         <>
             {isLoading && <Spinner/>}
-            <h1 className="large text-primary">Posts</h1>
-            <p className="lead">
-                <i className="fas fa-user"> Welcome</i>
+            <h1 className='large text-primary'>Posts</h1>
+            <p className='lead'>
+                <i className='fas fa-user'> Welcome</i>
             </p>
 
             <PostForm/>
 
-            <div className="posts">
+            <div className='posts'>
                 {!isLoading && posts.map((el) => {
                     return <PostItem key={el._id} post={el}/>
                 })}

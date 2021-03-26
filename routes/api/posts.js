@@ -148,10 +148,10 @@ router.put('/unlike/:id', middlewareAuth, async (req, res) => {
     }
 })
 
-// route    GET api/posts/comment/:id
+// route    POST api/posts/comment/:id
 // desc     Comment on a post
 // access   Private
-router.get('/comment/:id', [middlewareAuth,
+router.post('/comment/:id', [middlewareAuth,
         [
             check('text', 'Text is required').not().isEmpty()
         ]],
@@ -160,11 +160,9 @@ router.get('/comment/:id', [middlewareAuth,
         if (!errors.isEmpty()) {
             return res.status(400).json({errors: errors.array()})
         }
-
         try {
             const user = await User.findById(req.user.id).select('-password')
             const post = await Post.findById(req.params.id)
-
             const newComment = {
                 user: req.user.id,
                 text: req.body.text,
@@ -173,7 +171,6 @@ router.get('/comment/:id', [middlewareAuth,
             }
             post.comments.unshift(newComment)
             await post.save()
-
             res.json({msg: 'Comment added', comment: newComment.text, comments: post.comments})
 
         } catch (e) {

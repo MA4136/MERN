@@ -49,7 +49,7 @@ const ProfilePage = ({getProfileById, auth, profileInfo, match}) => {
             </div>}
 
             {profile && profile.github &&
-            <div className="profile-github">
+            <div className='profile-github'>
                 <ProfileGithub userName={profile.github} repos={repos}/>
             </div>
             }

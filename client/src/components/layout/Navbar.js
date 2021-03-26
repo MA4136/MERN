@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { logOut } from '../../actions/authActions'
 
-const Navbar = ({logOut, isAuthenticated}) => {
+const Navbar = ({logOut, isAuthenticated, user}) => {
 
     const isAuthorized = (
         <ul>
@@ -21,7 +21,7 @@ const Navbar = ({logOut, isAuthenticated}) => {
                 <Link to='/' onClick={logOut}>
                     <i className='fas fa-sign-out-alt'></i>
                     {' '}
-                    <span className='hide-sm'>LogOut</span>
+                    <span className='hide-sm'>{user && user.name}</span>
                 </Link>
             </li>
         </ul>
@@ -48,11 +48,13 @@ const Navbar = ({logOut, isAuthenticated}) => {
 Navbar.propTypes = {
     isAuthenticated: PropTypes.bool.isRequired,
     logOut: PropTypes.func.isRequired,
+    user: PropTypes.object,
 }
 
 const mapStateToProps = (state) => {
     return {
-        isAuthenticated: state.auth.isAuthenticated
+        isAuthenticated: state.auth.isAuthenticated,
+        user: state.auth.user
     }
 }
 

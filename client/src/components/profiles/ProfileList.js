@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react'
-import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import { getProfiles } from '../../actions/profileActions'
-import Spinner from '../layout/Spinner'
 import ProfileItem from './ProfileItem'
+import Spinner from '../layout/Spinner'
 
 const ProfileList = ({getProfiles, profileInfo}) => {
     const {profiles, isLoading} = profileInfo
@@ -18,11 +18,11 @@ const ProfileList = ({getProfiles, profileInfo}) => {
             {
                 !isLoading &&
                 <>
-                    <h2 className="large text-primary">Developers:</h2>
-                    <p className="lead">
-                        <i className="fab fa-connectdevelop"></i> Browse & connect with developers
+                    <h2 className='large text-primary'>Developers:</h2>
+                    <p className='lead'>
+                        <i className='fab fa-connectdevelop'></i> Browse & connect with developers
                     </p>
-                    <div className="profiles">
+                    <div className='profiles'>
                         {!profiles.length && 'No profiles found'}
                         {
                             profiles.length && profiles.map((el) => {
