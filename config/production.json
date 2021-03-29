@@ -1,0 +1,6 @@
+{
+  "mongoURI": "mongodb+srv://test:123@clusterblaster.9gfhi.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+  "jwtSecret": "fhtagn",
+  "githubClientID": "ae5fbf7fea435376d54d",
+  "githubClientSecret": "6487c109c5a760077f18a3e8c98ed5025599a853"
+}
